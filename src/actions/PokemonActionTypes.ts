@@ -1,42 +1,56 @@
+import { StringLiteral } from "typescript";
+
 export const POKEMON_LOADING = "POKEMON_LOADING";
 export const POKEMON_FAIL = "POKEMON_FAIL";
 export const POKEMON_SUCCESS = "POKEMON_SUCCESS";
 
-export type PokemonType = {
-  abilities: PokemonAbility[],
-  sprites: PokemonSprites,
-  stats: PokemonStat[]
+export type IPokemonType = {
+  abilities: IPokemonAbility[],
+  sprites: IPokemonSprites,
+  stats: IPokemonStat[]
 }
 
-export type PokemonAbility = {
+export type IPokemonAbility = {
   ability: {
     name: string
     url: string
   }
 }
 
-export type PokemonSprites = {
+export type IPokemonSprites = {
   front_default: string
 }
 
-export type PokemonStat = {
+export type IPokemonStat = {
   base_stat: number,
   stat: {
     name: string
   }
 }
 
-export interface PokemonLoading {
+export interface IPokemonLoading {
   type: typeof POKEMON_LOADING
 }
 
-export interface PokemonFail {
+export interface IPokemonFail {
   type: typeof POKEMON_FAIL
 }
 
-export interface PokemonSuccess {
+export interface IPokemonSuccess {
   type: typeof POKEMON_SUCCESS,
-  payload: PokemonType
+  payload: IPayload
 }
 
-export type PokemonDispatchTypes = PokemonLoading | PokemonFail | PokemonSuccess
+export interface IPokemon {
+    name: string;
+    url: string;
+}
+
+export interface IPayload {
+    count: number;
+    next: string;
+    previous: string;
+    pokemons: Array<IPokemon>;
+}
+
+export type PokemonDispatchTypes = IPokemonLoading | IPokemonFail | IPokemonSuccess

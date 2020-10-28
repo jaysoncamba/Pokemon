@@ -1,23 +1,43 @@
 import {Dispatch} from "redux";
-import {POKEMON_FAIL, POKEMON_LOADING, POKEMON_SUCCESS, PokemonDispatchTypes} from "./PokemonActionTypes";
+import {IPOKEMON_FAIL, IPOKEMON_LOADING, IPOKEMON_SUCCESS, PokemonDispatchTypes} from "./PokemonActionTypes";
 import axios from "axios";
 
 export const GetPokemon = (pokemon: string) => async (dispatch: Dispatch<PokemonDispatchTypes>) => {
   try {
     dispatch({
-      type: POKEMON_LOADING
+      type: IPOKEMON_LOADING
     })
 
     const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
 
     dispatch({
-      type: POKEMON_SUCCESS,
+      type: IPOKEMON_SUCCESS,
       payload: res.data
     })
 
   } catch(e) {
     dispatch({
-      type: POKEMON_FAIL
+      type: IPOKEMON_FAIL
     })
   }
 };
+
+export const GetPokemons = () => async (dispatch: Dispatch<PokemonDispatchTypes>) => {
+    try {
+      dispatch({
+        type: IPOKEMON_LOADING
+      })
+  
+      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/`);
+  
+      dispatch({
+        type: IPOKEMON_SUCCESS,
+        payload: res.data
+      })
+  
+    } catch(e) {
+      dispatch({
+        type: IPOKEMON_FAIL
+      })
+    }
+  };

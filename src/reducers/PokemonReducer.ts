@@ -3,12 +3,12 @@ import {
     POKEMON_LOADING,
     POKEMON_SUCCESS,
     PokemonDispatchTypes,
-    PokemonType
+    IPayload
   } from "../actions/PokemonActionTypes";
   
   interface DefaultStateI {
     loading: boolean,
-    pokemon?: PokemonType
+    result?: IPayload
   }
   
   const defaultState: DefaultStateI = {
@@ -28,7 +28,7 @@ import {
       case POKEMON_SUCCESS:
         return {
           loading: false,
-          pokemon: action.payload
+          result: action.payload
         }
       default:
         return state
