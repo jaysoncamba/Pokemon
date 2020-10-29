@@ -1,5 +1,3 @@
-import { type } from "os";
-
 export const ADD_POKEMONS = "ADD_POKEMONS";
 
 export const ADD_TO_LINEUP = "ADD_TO_LINEUP";
