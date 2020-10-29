@@ -1,43 +1,48 @@
-import {Dispatch} from "redux";
-import {IPOKEMON_FAIL, IPOKEMON_LOADING, IPOKEMON_SUCCESS, PokemonDispatchTypes} from "./PokemonActionTypes";
+import { Dispatch } from "redux";
+import {
+  ADD_TO_LINEUP, REMOVE_FROM_LINEUP, SET_CURRENT_POKEMON,
+  ADD_POKEMONS, IPokemon, PokemonDispatchTypes, POKEMON_LOADING,
+  POKEMON_FAIL
+} from "./PokemonActionTypes";
 import axios from "axios";
 
-export const GetPokemon = (pokemon: string) => async (dispatch: Dispatch<PokemonDispatchTypes>) => {
+export const AddToLineUp = (pokemon: IPokemon) => {
+  return {
+    type: ADD_TO_LINEUP,
+    pokemon
+  }
+}
+
+export const RemoveFromLineUp = (pokemon: IPokemon) => {
+  return {
+    type: REMOVE_FROM_LINEUP,
+    pokemon
+  }
+}
+
+export const SetCurrentPokemon = (pokemon: IPokemon) => {
+  return {
+    type: SET_CURRENT_POKEMON,
+    pokemon
+  }
+}
+
+export const GetPokemons = () => async (dispatch: Dispatch<PokemonDispatchTypes>) => {
   try {
     dispatch({
-      type: IPOKEMON_LOADING
+      type: POKEMON_LOADING
     })
 
-    const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
+    const res = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=151`);
 
     dispatch({
-      type: IPOKEMON_SUCCESS,
+      type: ADD_POKEMONS,
       payload: res.data
     })
 
   } catch(e) {
     dispatch({
-      type: IPOKEMON_FAIL
+      type: POKEMON_FAIL
     })
   }
 };
-
-export const GetPokemons = () => async (dispatch: Dispatch<PokemonDispatchTypes>) => {
-    try {
-      dispatch({
-        type: IPOKEMON_LOADING
-      })
-  
-      const res = await axios.get(`https://pokeapi.co/api/v2/pokemon/`);
-  
-      dispatch({
-        type: IPOKEMON_SUCCESS,
-        payload: res.data
-      })
-  
-    } catch(e) {
-      dispatch({
-        type: IPOKEMON_FAIL
-      })
-    }
-  };

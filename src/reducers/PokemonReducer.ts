@@ -1,35 +1,47 @@
 import {
-    POKEMON_FAIL,
-    POKEMON_LOADING,
-    POKEMON_SUCCESS,
-    PokemonDispatchTypes,
-    IPayload
-  } from "../actions/PokemonActionTypes";
+  ADD_TO_LINEUP, REMOVE_FROM_LINEUP, SET_CURRENT_POKEMON,
+  ADD_POKEMONS, IPokemon
+} from "../actions/PokemonActionTypes"
   
-  interface DefaultStateI {
-    loading: boolean,
-    result?: IPayload
+  interface IDefaultState {
+    current_pokemon?: IPokemon,
+    lineup: Array<IPokemon>,
+    pokemons: Array<IPokemon>
   }
   
-  const defaultState: DefaultStateI = {
-    loading: false
+  const defaultState: IDefaultState = {
+    current_pokemon: undefined,
+    lineup: [],
+    pokemons: []
   };
   
-  const pokemonReducer = (state: DefaultStateI = defaultState, action: PokemonDispatchTypes) : DefaultStateI => {
+  const pokemonReducer = (state: IDefaultState = defaultState, action: any) : IDefaultState => {
     switch (action.type) {
-      case POKEMON_FAIL:
+      case ADD_TO_LINEUP: {
         return {
-          loading: false,
+          ...state,
+          lineup: state.lineup.concat(action.pokemon)
         }
-      case POKEMON_LOADING:
+      }
+      case REMOVE_FROM_LINEUP: {
+        const newList = state.lineup.filter(pokemon => pokemon !== action.pokemon);
         return {
-          loading: true,
+          ...state,
+          lineup: newList
         }
-      case POKEMON_SUCCESS:
+      }
+      case SET_CURRENT_POKEMON: {
         return {
-          loading: false,
-          result: action.payload
+          ...state,
+          current_pokemon: action.pokemon
         }
+      }
+      case ADD_POKEMONS: {
+        return {
+          ...state,
+          pokemons: action.payload.results
+        }
+      }
       default:
         return state
     }

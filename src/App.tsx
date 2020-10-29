@@ -14,6 +14,7 @@ function App() {
 
   return (
     <div className="App">
+      {pokemonState.}
       {pokemonState.pokemon && (
         <div>
           <img src={pokemonState.pokemon.sprites.front_default} alt=""/>
