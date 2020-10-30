@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import Typography from '@material-ui/core/Typography';
 import LineupList from '../LineupList';
 import PokemonList from '../PokemonList';
 import PokemonDescription from '../PokemonDescription';
+import Grid from '@material-ui/core/Grid';
+
 
 interface IPokemon {
   name: string,
@@ -79,7 +79,11 @@ export default class Pokedex extends Component {
     }
 
     addToLineUp = (pokemon: IPokemon) => {
-      if(this.state.lineup?.includes(pokemon)) {
+      const {lineup} = this.state;
+      if(lineup && lineup.length > 6) {
+        alert("You can only carry 6 pokemons on your lineup")
+      }
+      if(lineup?.includes(pokemon)) {
         alert("Cannot have duplicate Pokemons in the lineup");
         return;
       }
@@ -109,23 +113,19 @@ export default class Pokedex extends Component {
     render() {
       const { pokemons, lineup, current_pokemon } = this.state;
       return (
-        <div>
-          <GridList cols={3}>
-            <GridListTile  key="heading" cols={3}> 
+        <div style={{flexGrow: 1}}>
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
               <Typography variant="h5" align="center">Pokemon Lineup</Typography>
-            </GridListTile>
-            <LineupList pokemons={ lineup } deleteHandler={this.removeFromLineup} onClickHandler={this.setCurrentPokemon}/>
-            <GridListTile  key="pokedex" cols={3}> 
-              <Typography  variant="h5" align="center">Pokemon Descripion</Typography>
-              <PokemonDescription pokemon={ current_pokemon } />
-            </GridListTile>
-          </GridList>
-          <GridList cols={3}>
-            <GridListTile  key="heading" cols={3}> 
+              <LineupList pokemons={ lineup } deleteHandler={this.removeFromLineup} onClickHandler={this.setCurrentPokemon}/>
+              <Typography variant="h5" align="center">Pokemon Highlights</Typography>
+              <PokemonDescription pokemon={current_pokemon}/>
+            </Grid>
+            <Grid item xs={6}>
               <Typography variant="h5" align="center">PokeDex</Typography>
-              <PokemonList pokemons={ pokemons } addHandler={this.addToLineUp} onClickHandler={this.setCurrentPokemon}/>
-            </GridListTile>
-          </GridList>
+              <PokemonList pokemons={pokemons} onClickHandler={this.setCurrentPokemon} addHandler={this.addToLineUp}></PokemonList>
+            </Grid>
+          </Grid>
         </div>
       )
     }
